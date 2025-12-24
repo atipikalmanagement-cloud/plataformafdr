@@ -37,7 +37,9 @@ const NavItem: React.FC<{
                 <div className={`transition-transform flex-shrink-0 ${isCollapsed ? '' : 'mr-4'} ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
                     {children}
                 </div>
-                {!isCollapsed && <span className="font-semibold text-[15px] whitespace-nowrap opacity-100 transition-opacity duration-300">{label}</span>}
+                <span className={`font-semibold text-[15px] whitespace-nowrap transition-all duration-500 overflow-hidden ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
+                    {label}
+                </span>
             </button>
         </li>
     );
@@ -47,18 +49,20 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, currentPath, user, onLogo
     return (
         <aside 
             className={`h-full transition-all duration-500 ease-in-out p-6 flex flex-col ${
-                isCollapsed ? 'w-[120px]' : 'w-[300px]'
+                isCollapsed ? 'w-[120px]' : 'w-[320px]'
             }`}
         >
-            <div className="sidebar-white flex flex-col h-full overflow-hidden p-6 md:p-8 relative">
+            <div className="sidebar-white flex flex-col h-full overflow-hidden p-6 md:p-8 relative shadow-2xl">
                 {/* Brand */}
-                <div className={`flex items-center mb-12 px-2 transition-all duration-300 ${isCollapsed ? 'justify-center' : 'gap-3'}`}>
-                    <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center text-ochre">
+                <div className={`flex items-center mb-12 px-2 transition-all duration-500 ${isCollapsed ? 'justify-center' : 'gap-4'}`}>
+                    <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center text-ochre bg-ochre/5 rounded-2xl transition-transform duration-500 hover:rotate-12">
                         <svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
                            <path d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                     </div>
-                    {!isCollapsed && <h1 className="text-2xl font-black tracking-tight text-gunmetal animate-fade-in">DR Coach</h1>}
+                    <h1 className={`text-2xl font-black tracking-tight text-gunmetal transition-all duration-500 overflow-hidden ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
+                        DR Coach
+                    </h1>
                 </div>
                 
                 {/* Navigation */}
@@ -86,38 +90,34 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavigate, currentPath, user, onLogo
                         </NavItem>
                     </ul>
 
-                    {!isCollapsed && (
-                        <div className="mt-12 animate-fade-in">
-                            <p className="px-6 text-[11px] font-extrabold uppercase tracking-[0.2em] text-olive mb-6">Equipas</p>
-                            <ul className="flex flex-col gap-4 px-6">
-                                <li className="flex items-center gap-3">
-                                    <div className="w-2.5 h-2.5 rounded-full bg-ochre"></div>
-                                    <span className="text-sm font-bold text-gunmetal">Comercial</span>
-                                </li>
-                                <li className="flex items-center gap-3">
-                                    <div className="w-2.5 h-2.5 rounded-full bg-olive"></div>
-                                    <span className="text-sm font-bold text-gunmetal">Marketing</span>
-                                </li>
-                            </ul>
-                        </div>
-                    )}
+                    <div className={`mt-12 transition-all duration-500 ${isCollapsed ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}>
+                        <p className="px-6 text-[10px] font-black uppercase tracking-[0.3em] text-olive/60 mb-6">Equipas</p>
+                        <ul className="flex flex-col gap-4 px-6">
+                            <li className="flex items-center gap-4 group cursor-pointer">
+                                <div className="w-2.5 h-2.5 rounded-full bg-ochre shadow-lg shadow-ochre/20 group-hover:scale-125 transition-transform"></div>
+                                <span className="text-sm font-black text-gunmetal/70 group-hover:text-gunmetal transition-colors">Comercial</span>
+                            </li>
+                            <li className="flex items-center gap-4 group cursor-pointer">
+                                <div className="w-2.5 h-2.5 rounded-full bg-olive/40 group-hover:bg-olive group-hover:scale-125 transition-all"></div>
+                                <span className="text-sm font-black text-gunmetal/70 group-hover:text-gunmetal transition-colors">Marketing</span>
+                            </li>
+                        </ul>
+                    </div>
                 </nav>
 
                 {/* Profile Card Bottom */}
-                <div className={`mt-auto border-t border-slate-100 pt-8 transition-all duration-300 ${isCollapsed ? 'items-center' : ''}`}>
+                <div className={`mt-auto border-t border-slate-100 pt-8 transition-all duration-500 ${isCollapsed ? 'items-center' : ''}`}>
                     <button 
                         onClick={onLogout}
-                        className={`flex items-center w-full group ${isCollapsed ? 'justify-center' : 'gap-4 px-2'}`}
+                        className={`flex items-center w-full group transition-all duration-300 ${isCollapsed ? 'justify-center' : 'gap-4 px-2 hover:bg-slate-50 py-2 rounded-2xl'}`}
                     >
-                        <div className="w-12 h-12 rounded-2xl flex-shrink-0 overflow-hidden shadow-inner border border-amber">
+                        <div className="w-12 h-12 rounded-2xl flex-shrink-0 overflow-hidden shadow-xl border-2 border-amber transition-transform group-hover:scale-105">
                             <img src={user.avatarUrl} alt={user.name} className="w-full h-full object-cover" />
                         </div>
-                        {!isCollapsed && (
-                            <div className="text-left overflow-hidden animate-fade-in">
-                                <p className="text-sm font-extrabold text-gunmetal truncate">{user.name}</p>
-                                <p className="text-[10px] font-bold text-olive uppercase">Sair da conta</p>
-                            </div>
-                        )}
+                        <div className={`text-left overflow-hidden transition-all duration-500 ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100'}`}>
+                            <p className="text-sm font-black text-gunmetal truncate">{user.name}</p>
+                            <p className="text-[9px] font-black text-ochre uppercase tracking-widest">Sair da conta</p>
+                        </div>
                     </button>
                 </div>
             </div>
