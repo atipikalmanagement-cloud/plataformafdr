@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Revolution | AI Sales Coach</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              gunmetal: '#393D3F',
+              ghost: '#F7F7FF',
+              ochre: '#BA5A31',
+              amber: '#FFB627',
+              olive: '#808F85',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background: #393D3F;
+        background-image: 
+          radial-gradient(at 0% 0%, #393D3F 0, transparent 50%), 
+          radial-gradient(at 100% 100%, #BA5A31 0, transparent 40%),
+          radial-gradient(at 50% 0%, #808F85 0, transparent 50%);
+        background-attachment: fixed;
+        color: #F7F7FF;
+        min-height: 100vh;
+      }
+      .sidebar-white {
+        background: #F7F7FF;
+        border-radius: 40px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      }
+      .card-dark {
+        background: #BA5A31; /* Usando Red Ochre para cards escuros para variar do fundo */
+        color: #F7F7FF;
+        border-radius: 32px;
+      }
+      .card-white {
+        background: #F7F7FF;
+        color: #393D3F;
+        border-radius: 32px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      }
+      .card-glass {
+        background: rgba(247, 247, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(128, 143, 133, 0.2);
+        border-radius: 32px;
+      }
+      .active-nav {
+        background: #393D3F !important;
+        color: #F7F7FF !important;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #808F85;
+        border-radius: 10px;
+      }
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-up {
+        animation: fadeUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.28.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

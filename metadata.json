@@ -1,0 +1,7 @@
+{
+  "name": "Diogo Sales Roleplay AI Coach",
+  "description": "A platform for sales teams to practice live roleplays with an AI-powered audio agent simulating various sales call scenarios. Get instant feedback and improve your skills.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
