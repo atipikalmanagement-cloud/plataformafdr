@@ -132,7 +132,6 @@ const RoleplayScreen: React.FC<RoleplayScreenProps> = ({ exercise, difficulty, s
         return () => clearInterval(intervalId);
     }, [timeLeft, status, endCall]);
 
-    // Tentativa de resume automático se o browser suspender o áudio
     const tryResumeAudio = useCallback(async () => {
         if (outputAudioContextRef.current?.state === 'suspended') {
             await outputAudioContextRef.current.resume();
@@ -148,12 +147,16 @@ const RoleplayScreen: React.FC<RoleplayScreenProps> = ({ exercise, difficulty, s
             setErrorMessage(null);
             
             try {
-                // 0. Inicialização imediata dos Contextos (mais chance de sucesso)
+                // 0. Verificação de Chave de API
+                const apiKey = process.env.API_KEY;
+                if (!apiKey) {
+                    throw new Error("API_KEY não detetada. Se acabou de configurar no Vercel, por favor faça um 'Redeploy' da aplicação para que as alterações tenham efeito.");
+                }
+
                 const AudioCtx = (window.AudioContext || (window as any).webkitAudioContext);
                 inputAudioContextRef.current = new AudioCtx({ sampleRate: 16000 });
                 outputAudioContextRef.current = new AudioCtx({ sampleRate: 24000 });
 
-                // 1. Mic Request
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true }).catch(err => {
                     throw new Error("Não foi possível aceder ao microfone. Por favor, permita o acesso nas definições do navegador.");
                 });
@@ -164,10 +167,6 @@ const RoleplayScreen: React.FC<RoleplayScreenProps> = ({ exercise, difficulty, s
                 mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
                 mediaRecorderRef.current.ondataavailable = (e) => { if (e.data.size > 0) userAudioChunksRef.current.push(e.data); };
                 mediaRecorderRef.current.start(1000);
-
-                // 2. IA Setup
-                const apiKey = process.env.API_KEY;
-                if (!apiKey) throw new Error("A chave da API não foi detetada. Contacte o administrador.");
 
                 const ai = new GoogleGenAI({ apiKey });
                 const systemInstruction = generateSystemPrompt(exercise, difficulty, scenarioData, user);
@@ -188,7 +187,6 @@ const RoleplayScreen: React.FC<RoleplayScreenProps> = ({ exercise, difficulty, s
                             setStatus('LISTENING');
                             isConnectedRef.current = true;
                             
-                            // Garantir que o áudio está ativo
                             if (outputAudioContextRef.current?.state === 'suspended') {
                                 try {
                                     await outputAudioContextRef.current.resume();
@@ -277,7 +275,7 @@ const RoleplayScreen: React.FC<RoleplayScreenProps> = ({ exercise, difficulty, s
                         onerror: (e) => { 
                             console.error("Live Session Error:", e);
                             if (isActive) { 
-                                setErrorMessage("A ligação ao servidor falhou. Verifique a sua internet."); 
+                                setErrorMessage("A ligação ao servidor falhou. Verifique a sua ligação à internet."); 
                                 setStatus('ERROR'); 
                                 cleanup(); 
                             } 

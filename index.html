@@ -1,11 +1,11 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-scrollbar">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Digital Revolution | AI Sales Coach</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>DR Coach | High-Performance Sales AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +20,11 @@
               ochre: '#BA5A31',
               amber: '#FFB627',
               olive: '#808F85',
+            },
+            borderRadius: {
+              '2xl': '16px',
+              '3xl': '24px',
+              '4xl': '32px',
             }
           }
         }
@@ -36,56 +41,35 @@
         background-attachment: fixed;
         color: #F7F7FF;
         min-height: 100vh;
+        overflow-x: hidden;
+        -webkit-tap-highlight-color: transparent;
       }
-      .sidebar-white {
-        background: #F7F7FF;
-        border-radius: 40px;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-      }
-      .card-dark {
-        background: #BA5A31; /* Usando Red Ochre para cards escuros para variar do fundo */
-        color: #F7F7FF;
-        border-radius: 32px;
-      }
-      .card-white {
-        background: #F7F7FF;
-        color: #393D3F;
-        border-radius: 32px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      }
-      .card-glass {
-        background: rgba(247, 247, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(128, 143, 133, 0.2);
-        border-radius: 32px;
-      }
-      .active-nav {
-        background: #393D3F !important;
-        color: #F7F7FF !important;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #808F85;
-        border-radius: 10px;
-      }
+
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+      .card-dark { background: #BA5A31; color: #F7F7FF; border-radius: 24px; }
+      .card-white { background: #F7F7FF; color: #393D3F; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+      .card-glass { background: rgba(247, 247, 255, 0.08); backdrop-filter: blur(12px); border: 1px solid rgba(247, 247, 255, 0.1); border-radius: 24px; }
+      .active-nav { background: #393D3F !important; color: #F7F7FF !important; }
+      
       @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(20px); }
+        from { opacity: 0; transform: translateY(12px); }
         to { opacity: 1; transform: translateY(0); }
       }
-      .animate-fade-up {
-        animation: fadeUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-      }
+      .animate-fade-up { animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.28.0",
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
-  }
-}
-</script>
-</head>
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://aistudiocdn.com/react@^19.2.0",
+        "@google/genai": "https://aistudiocdn.com/@google/genai@^1.28.0",
+        "react/": "https://aistudiocdn.com/react@^19.2.0/",
+        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+      }
+    }
+    </script>
+  </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>

@@ -13,24 +13,22 @@ type FlowState = 'selection' | 'scenario' | 'roleplay' | 'analysis';
 interface SelectionFlowProps {
     onSaveRecording: (recording: Omit<Recording, 'id' | 'date' | 'userId'>) => void;
     user: User;
+    recordings: Recording[];
 }
 
-const SelectionFlow: React.FC<SelectionFlowProps> = ({ onSaveRecording, user }) => {
+const SelectionFlow: React.FC<SelectionFlowProps> = ({ onSaveRecording, user, recordings }) => {
   const [flowState, setFlowState] = useState<FlowState>('selection');
 
-  // State for the entire flow
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
   const [scenarioData, setScenarioData] = useState<ScenarioData | null>(null);
 
-  // State for analysis
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [isLoadingAnalysis, setIsLoadingAnalysis] = useState(false);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
   const [transcript, setTranscript] = useState<Transcript[] | null>(null);
   const [userAudioUrl, setUserAudioUrl] = useState<string | null>(null);
   const [aiAudioUrl, setAiAudioUrl] = useState<string | null>(null);
-
 
   const handleProceedToScenario = useCallback((exercise: Exercise, difficulty: Difficulty) => {
     setSelectedExercise(exercise);
@@ -81,10 +79,15 @@ const SelectionFlow: React.FC<SelectionFlowProps> = ({ onSaveRecording, user }) 
            return;
         }
   
+        const apiKey = process.env.API_KEY;
+        if (!apiKey) {
+            throw new Error("API_KEY não encontrada nas variáveis de ambiente. Por favor, verifique se fez o 'Redeploy' no Vercel.");
+        }
+
         const fullTranscriptText = transcript.map(t => `${t.speaker === 'user' ? 'VENDEDOR' : 'CLIENTE'}: ${t.text}`).join('\n');
         const prompt = generateAnalysisPrompt(fullTranscriptText, selectedExercise);
   
-        const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+        const ai = new GoogleGenAI({ apiKey });
         const response = await ai.models.generateContent({
             model: 'gemini-3-pro-preview',
             contents: prompt,
@@ -146,7 +149,7 @@ const SelectionFlow: React.FC<SelectionFlowProps> = ({ onSaveRecording, user }) 
   const renderContent = () => {
     switch (flowState) {
       case 'selection':
-        return <SelectionScreen onStart={handleProceedToScenario} />;
+        return <SelectionScreen onStart={handleProceedToScenario} recordings={recordings} />;
       
       case 'scenario':
         if (!scenarioData) {

@@ -100,7 +100,7 @@ const App: React.FC = () => {
   const renderPage = () => {
     switch (currentPage) {
         case 'selection':
-            return <SelectionFlow onSaveRecording={addRecording} user={currentUser} />;
+            return <SelectionFlow onSaveRecording={addRecording} user={currentUser} recordings={recordings} />;
         case 'recordings':
             return <RecordingsScreen recordings={recordings} />;
         case 'goals':
@@ -108,7 +108,7 @@ const App: React.FC = () => {
         case 'profile':
             return <ProfileScreen user={currentUser} recordings={recordings} onUpdate={handleUpdateProfile} />;
         default:
-            return <SelectionFlow onSaveRecording={addRecording} user={currentUser} />;
+            return <SelectionFlow onSaveRecording={addRecording} user={currentUser} recordings={recordings} />;
     }
   }
 
